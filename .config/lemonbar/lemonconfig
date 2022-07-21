@@ -1,0 +1,30 @@
+#!/bin/bash
+# Launches an instance of lemonbar
+
+hostname() {
+	cat /etc/hostname
+}
+
+clock() {
+	date +'%a %d %b'
+}
+
+clocktick()  {
+	date +%H\:%M
+}
+
+battery() {
+	cat /sys/class/power_supply/BAT1/capacity
+}
+
+cpu() {
+	top -bn1 | grep "Cpu(s)" | \
+           sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | \
+	   awk '{print int(100 - $1)}'
+}
+
+while true; do
+	BAR_INPUT="%{B#5c5f77}%{F#ccd0da}%{1} %{l}PC:$(hostname) %{c}$(clock), $(clocktick)  %{r}CPU: $(cpu) | BATTERIA: $(battery)"
+        echo $BAR_INPUT
+        sleep 1
+done

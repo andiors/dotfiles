@@ -1,0 +1,2 @@
+#!/bin/bash
+./lemonconfig | lemonbar -g 1920x20+0+0 -p
